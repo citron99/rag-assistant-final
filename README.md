@@ -92,16 +92,6 @@ python -c "from rag_pipeline import RAGPipeline; p=RAGPipeline(collection_name='
 python evaluate_ragas.py
 ```
 
----
-
-## 📈 Результаты
-
-Faithfulness: 0.73  
-Context Precision: 0.43  
-Answer Relevancy: 0.33  
-
----
-
 ## 💡 Выводы
 
 - Один чанк = один вопрос  
