@@ -37,87 +37,90 @@
 ---
 
 ## 📂 Структура проекта
+
+```
 assistant_api/
 │
 ├── data/
-│ ├── faq.txt
-│ ├── delivery.txt
-│ ├── returns.txt
-│ ├── support.txt
-│ └── staff.txt
+│   ├── faq.txt
+│   ├── delivery.txt
+│   ├── returns.txt
+│   ├── support.txt
+│   └── staff.txt
 │
-├── chroma_db/ # векторная база
-├── rag_pipeline.py # основной RAG pipeline
-├── vector_store.py # работа с ChromaDB
-├── evaluate_ragas.py # оценка качества
+├── chroma_db/
+├── rag_pipeline.py
+├── vector_store.py
+├── evaluate_ragas.py
 └── README.md
-
+```
 
 ---
 
 ## ⚙️ Установка и запуск
 
-### 1. Установка Python
+### Python 3.11.9
 
-Рекомендуемая версия:
-Python 3.11.9
+```
+python -m venv venv311
+venv311\Scripts\activate
+```
 
+```
+pip install chromadb openai tiktoken numpy pandas datasets ragas langchain langchain-openai python-dotenv
+```
+
+Создать `.env`:
+
+```
+OPENAI_API_KEY=your_api_key
+```
 
 ---
 
-### 2. Создание виртуального окружения
+## 📥 Индексация
 
-```bash
-python -m venv venv311
-venv311\Scripts\activate
+```
+python -c "from rag_pipeline import RAGPipeline; p=RAGPipeline(collection_name='rag_collection', data_dir='data'); print(p.reindex(recreate_collection=True))"
+```
 
-Оценка качества (RAGAS)
+---
+
+## 📊 Оценка
+
+```
 python evaluate_ragas.py
+```
 
-Используемые метрики:
+---
 
-Faithfulness — насколько ответ соответствует контексту
-Context Precision — насколько правильно найден контекст
-Answer Relevancy — насколько ответ релевантен вопросу
+## 📈 Результаты
 
-Анализ результатов
-Что удалось:
-Система корректно ищет релевантные документы
-Ответы опираются на контекст (высокий Faithfulness)
-База знаний структурирована и разбита на файлы
-Что требует улучшения:
-Retrieval не всегда находит нужные чанки
-Некоторые вопросы отсутствуют в базе знаний
-Требуется доработка стратегии chunking
-🛠 Что было улучшено
-Разделение базы знаний на несколько файлов (faq, delivery, returns, support, staff)
-Добавлены отдельные FAQ-блоки
-Улучшены формулировки вопросов
-Добавлены ключевые слова (keywords)
-Реализована переиндексация базы
-Добавлена оценка качества через RAGAS
-💡 Выводы
+Faithfulness: 0.73  
+Context Precision: 0.43  
+Answer Relevancy: 0.33  
 
-В ходе выполнения проекта было выявлено:
+---
 
-Качество RAG напрямую зависит от структуры данных
-Один чанк = один вопрос — оптимальная стратегия
-Формулировка вопросов критична для retrieval
-Даже мощная модель не компенсирует плохую базу знаний
-🚀 Возможные улучшения
-Добавить reranking результатов поиска
-Использовать более продвинутые embeddings
-Добавить гибридный поиск (BM25 + embeddings)
-Улучшить prompt для генерации ответа
-Расширить базу знаний
-📎 Используемые технологии
-Python 3.11
-OpenAI API
-ChromaDB
-RAGAS
-LangChain
-👨‍💻 Автор
+## 💡 Выводы
 
-Проект выполнен в рамках обучения RAG-системам.
+- Один чанк = один вопрос  
+- Важно совпадение формулировок  
+- Retrieval важнее модели  
+
+---
+
+## 🚀 Улучшения
+
+- reranking  
+- better embeddings  
+- hybrid search  
+
+---
+
+## 📎 Технологии
+
+Python, OpenAI, ChromaDB, RAGAS, LangChain
+
 
 
